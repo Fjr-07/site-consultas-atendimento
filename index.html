@@ -18,15 +18,12 @@
       border-radius: 8px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-    input {
+    input, button {
       margin-top: 1rem;
       padding: 0.5rem;
       width: 100%;
     }
     button {
-      margin-top: 1rem;
-      width: 100%;
-      padding: 0.5rem;
       background: #0a66c2;
       color: white;
       border: none;
@@ -41,24 +38,21 @@
     <button onclick="checkPassword()">Entrar</button>
   </div>
 
-  <!-- Biblioteca jsSHA para gerar SHA-256 -->
-  <script src="https://cdn.jsdelivr.net/npm/jssha@3.2.0/dist/sha256.min.js"></script>
   <script>
+    function base64Reverse(str) {
+      return atob(str.split('').reverse().join(''));
+    }
+
     function checkPassword() {
       const senha = document.getElementById("password").value.trim();
+      const senhaCodificadaInvertida = "NDQzYm9JSW9iaU4="; // "Nibo1234" → btoa() → "TmlibzEyMzQ=" → invertida
 
-      const shaObj = new jsSHA("SHA-256", "TEXT");
-      shaObj.update(senha);
-      const hash = shaObj.getHash("HEX");
+      const senhaCorreta = base64Reverse(senhaCodificadaInvertida);
 
-      // SHA-256 de 'Nibo1234'
-      const senhaCorretaHash = "56519f18fd8c40c2bc681f898b208e1f87b98b83f2cc9d5e0b1d0c02cfb0c637";
-
-      if (hash === senhaCorretaHash) {
+      if (senha === senhaCorreta) {
         window.location.href = "pagina.html";
       } else {
         alert("Senha incorreta!");
-        console.log("Hash gerado:", hash);
       }
     }
   </script>
