@@ -42,10 +42,9 @@
   </div>
 
  <script>
-  // Gera o hash da senha digitada
   async function hashSenha(senha) {
     const encoder = new TextEncoder();
-    const data = encoder.encode(senha);
+    const data = encoder.encode(senha.trim()); // remove espaços acidentais
     const hashBuffer = await crypto.subtle.digest('SHA-256', data);
     const hashArray = Array.from(new Uint8Array(hashBuffer));
     const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
@@ -56,17 +55,16 @@
     const senhaDigitada = document.getElementById("password").value;
     const hash = await hashSenha(senhaDigitada);
 
-    // SHA-256 de "Nibo1234"
     const senhaCorretaHash = "f9b3b6f3c4d2a5e2552e9e7e042e83c315acbc2359bfc107295e1e45a9a3b1b3";
 
     if (hash === senhaCorretaHash) {
       window.location.href = "pagina.html";
     } else {
       alert("Senha incorreta!");
+      console.log("Hash digitado:", hash); // útil para depurar
     }
   }
 </script>
-
 </body>
 </html>
 
