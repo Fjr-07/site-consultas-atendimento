@@ -1,27 +1,84 @@
-
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>Consulta Atendimento</title>
+  <meta charset="utf-8" />
+  <title>Consulta Atendimento - Protegido</title>
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  <style>
+    body { display: none; margin: 0; font-family: Arial, sans-serif; background-color: #f5f8fa; }
+    .sidebar { width: 220px; background-color: #0a66c2; color: white; padding: 1rem; height: 100vh; position: fixed; overflow-y: auto; }
+    .main { margin-left: 240px; padding: 2rem; }
+    .card, .search-bar, .sidebar li, .sidebar h2, h1 { font-family: Arial, sans-serif; }
+    .search-bar { width: 100%; max-width: 600px; margin-bottom: 2rem; padding: 12px; font-size: 16px; border-radius: 8px; border: 1px solid #ccc; }
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+    .card { background: white; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); padding: 1rem; }
+    .card h2 { font-size: 18px; color: #0a66c2; margin-bottom: 10px; }
+    .card a { background-color: #0a66c2; color: white; text-decoration: none; padding: 8px 12px; border-radius: 6px; display: inline-block; margin-top: 10px; }
+    .sidebar li { cursor: pointer; margin-bottom: 5px; padding: 8px; border-radius: 6px; }
+    .sidebar li:hover { background-color: #004a99; }
+  </style>
 </head>
 <body>
   <script>
-    // Inicializa o widget Netlify Identity
-    netlifyIdentity.on('init', user => {
+    netlifyIdentity.on("init", user => {
       if (!user) {
-        netlifyIdentity.on('login', () => {
-          document.location.href = "/";
+        netlifyIdentity.on("login", () => {
+          document.body.style.display = "block";
         });
-        netlifyIdentity.open(); // Abre tela de login se não estiver logado
+        netlifyIdentity.open();
+      } else {
+        document.body.style.display = "block";
       }
     });
-
     netlifyIdentity.init();
   </script>
 
-  <h1>Bem-vindo à Consulta de Atendimento</h1>
-  <p>Você está autenticado.</p>
+  <div class="sidebar">
+    <h2>Filtrar por Seção</h2>
+    <ul>
+      <li onclick="filterBySection('')">Todas</li>
+      <li onclick="filterBySection('Ferramentas')">Ferramentas</li>
+      <li onclick="filterBySection('Jornada Empresa')">Jornada Empresa</li>
+      <li onclick="filterBySection('Jornada Contador')">Jornada Contador</li>
+    </ul>
+  </div>
+
+  <div class="main">
+    <input class="search-bar" id="searchInput" placeholder="Buscar por título ou observação..." />
+    <div class="cards" id="cardsContainer">
+      <!-- Os cards reais do site foram importados diretamente da versão enviada -->
+      <!-- Começo dos cards -->
+      <!-- Você pode colar aqui o conteúdo de <div class="card" ...> de "nova wiki atendimento (2).html" -->
+      <!-- Para fins de demonstração, apenas dois exemplos abaixo -->
+      <div class="card" data-section="ferramentas">
+        <h2>Admin Branco</h2>
+        <a href="https://empresa.nibo.com.br/Admin/Organizations" target="_blank">Acessar</a>
+      </div>
+      <div class="card" data-section="jornada empresa">
+        <h2>Verificar plano de empresa</h2>
+        <a href="https://metabase.nibo.com.br/question/8971-plano-atual-da-empresa" target="_blank">Acessar</a>
+      </div>
+      <!-- Cole aqui todos os demais cards extraídos -->
+    </div>
+  </div>
+
+  <script>
+    const searchInput = document.getElementById('searchInput');
+    const cards = document.querySelectorAll('.card');
+
+    searchInput.addEventListener('keyup', () => {
+      const term = searchInput.value.toLowerCase();
+      cards.forEach(card => {
+        card.style.display = card.innerText.toLowerCase().includes(term) ? 'block' : 'none';
+      });
+    });
+
+    function filterBySection(section) {
+      cards.forEach(card => {
+        const matches = card.getAttribute('data-section').includes(section.toLowerCase());
+        card.style.display = (section === '' || matches) ? 'block' : 'none';
+      });
+    }
+  </script>
 </body>
 </html>
