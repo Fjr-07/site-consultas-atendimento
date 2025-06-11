@@ -41,28 +41,27 @@
     <button onclick="checkPassword()">Entrar</button>
   </div>
 
-  <!-- Inclui lib de hash SHA-256 -->
-<script src="https://cdn.jsdelivr.net/npm/jssha/dist/sha256.min.js"></script>
-<script>
-  function checkPassword() {
-    const senha = document.getElementById("password").value.trim();
+  <!-- Biblioteca jsSHA para gerar SHA-256 -->
+  <script src="https://cdn.jsdelivr.net/npm/jssha@3.2.0/dist/sha256.min.js"></script>
+  <script>
+    function checkPassword() {
+      const senha = document.getElementById("password").value.trim();
 
-    // Cria o hash da senha digitada
-    const shaObj = new jsSHA("SHA-256", "TEXT");
-    shaObj.update(senha);
-    const hash = shaObj.getHash("HEX");
+      const shaObj = new jsSHA("SHA-256", "TEXT");
+      shaObj.update(senha);
+      const hash = shaObj.getHash("HEX");
 
-    const senhaCorretaHash = "f9b3b6f3c4d2a5e2552e9e7e042e83c315acbc2359bfc107295e1e45a9a3b1b3";
+      // SHA-256 de 'Nibo1234'
+      const senhaCorretaHash = "f9b3b6f3c4d2a5e2552e9e7e042e83c315acbc2359bfc107295e1e45a9a3b1b3";
 
-    if (hash === senhaCorretaHash) {
-      window.location.href = "pagina.html";
-    } else {
-      alert("Senha incorreta!");
-      console.log("Hash gerado:", hash);
+      if (hash === senhaCorretaHash) {
+        window.location.href = "pagina.html";
+      } else {
+        alert("Senha incorreta!");
+        console.log("Hash gerado:", hash);
+      }
     }
-  }
-</script>
-
+  </script>
 </body>
 </html>
 
