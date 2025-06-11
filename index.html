@@ -41,17 +41,32 @@
     <button onclick="checkPassword()">Entrar</button>
   </div>
 
-  <script>
-    function checkPassword() {
-      const senha = document.getElementById("password").value;
-      if (senha === "Nibo1234") {
-        // Redireciona para a página principal
-        window.location.href = "pagina.html"; // nome da sua página principal
-      } else {
-        alert("Senha incorreta!");
-      }
+ <script>
+  // Gera o hash da senha digitada
+  async function hashSenha(senha) {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(senha);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    return hashHex;
+  }
+
+  async function checkPassword() {
+    const senhaDigitada = document.getElementById("password").value;
+    const hash = await hashSenha(senhaDigitada);
+
+    // SHA-256 de "Nibo1234"
+    const senhaCorretaHash = "56519f18fd8c40c2bc681f898b208e1f87b98b83f2cc9d5e0b1d0c02cfb0c637";
+
+    if (hash === senhaCorretaHash) {
+      window.location.href = "pagina.html";
+    } else {
+      alert("Senha incorreta!");
     }
-  </script>
+  }
+</script>
+
 </body>
 </html>
 
