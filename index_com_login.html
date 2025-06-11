@@ -1,0 +1,27 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Consulta Atendimento</title>
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+</head>
+<body>
+  <script>
+    // Inicializa o widget Netlify Identity
+    netlifyIdentity.on('init', user => {
+      if (!user) {
+        netlifyIdentity.on('login', () => {
+          document.location.href = "/";
+        });
+        netlifyIdentity.open(); // Abre tela de login se não estiver logado
+      }
+    });
+
+    netlifyIdentity.init();
+  </script>
+
+  <h1>Bem-vindo à Consulta de Atendimento</h1>
+  <p>Você está autenticado.</p>
+</body>
+</html>
