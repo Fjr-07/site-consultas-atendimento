@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Login</title>
   <style>
     body {
@@ -34,25 +34,26 @@
 <body>
   <div id="login-container">
     <h2>Digite a senha para acessar</h2>
-    <input type="password" id="password" placeholder="Senha">
+    <input type="password" id="password" placeholder="Senha" />
     <button onclick="checkPassword()">Entrar</button>
   </div>
 
   <script>
-    function base64Reverse(str) {
+    function decodeInvertedBase64(str) {
       return atob(str.split('').reverse().join(''));
     }
 
     function checkPassword() {
-      const senha = document.getElementById("password").value.trim();
-      const senhaCodificadaInvertida = "NDQzYm9JSW9iaU4="; // "Nibo1234" → btoa() → "TmlibzEyMzQ=" → invertida
+      const senhaDigitada = document.getElementById("password").value.trim();
+      const senhaOfuscada = "=QzMzEybzilmT"; // "TmlibzEyMzQ=" invertido
 
-      const senhaCorreta = base64Reverse(senhaCodificadaInvertida);
+      const senhaCorreta = decodeInvertedBase64(senhaOfuscada);
 
-      if (senha === senhaCorreta) {
+      if (senhaDigitada === senhaCorreta) {
         window.location.href = "pagina.html";
       } else {
         alert("Senha incorreta!");
+        console.log("Digitado:", senhaDigitada, "| Esperado:", senhaCorreta);
       }
     }
   </script>
